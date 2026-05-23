@@ -3,6 +3,7 @@ package calanch.todoapplication.Controller;
 import calanch.todoapplication.Entity.Task;
 import calanch.todoapplication.Service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,28 +16,33 @@ public class TaskController {
     TaskService taskService;
 
     @GetMapping("/getall")
-    public List<Task> getAllTaskMapping() {
-        return taskService.getAllTask();
+    public ResponseEntity<List<Task>> getAllTaskMapping() {
+        return ResponseEntity.status(200)
+                .body(taskService.getAllTask());
     }
 
     @GetMapping("/{id}")
-    public Task getByTaskIdMapping(@PathVariable Long id) {
-        return taskService.getTask(id);
+    public ResponseEntity<Task> getByTaskIdMapping(@PathVariable Long id) {
+        return ResponseEntity.status(200)
+                .body(taskService.getTask(id));
     }
 
     @PostMapping("/create")
-    public Task createTaskMapping(@RequestBody Task task) {
-        return taskService.addTask(task);
+    public ResponseEntity<Task> createTaskMapping(@RequestBody Task task) {
+        return ResponseEntity.status(201)
+                .body(taskService.addTask(task));
     }
 
     @PutMapping("/update/{id}")
-    public Task updateTaskMapping(@RequestBody Task task, @PathVariable Long id){
-        return taskService.updateTask(task, id);
+    public ResponseEntity<Task> updateTaskMapping(@RequestBody Task task, @PathVariable Long id){
+        return ResponseEntity.status(204)
+                .body(taskService.updateTask(task, id));
     }
 
     @DeleteMapping("/delete/{id}")
-    public String deleteTaskMapping(@PathVariable Long id){
-        return taskService.deleteTask(id);
+    public ResponseEntity<String> deleteTaskMapping(@PathVariable Long id){
+        return ResponseEntity.status(204)
+                .body(taskService.deleteTask(id));
     }
 
 }
